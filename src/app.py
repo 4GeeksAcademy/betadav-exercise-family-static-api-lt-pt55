@@ -36,26 +36,28 @@ def handle_hello():
     response_body = members
     return jsonify(response_body), 200
 
-@app.route('/members/<int:member_id>', methods=['GET'])
-def get_member(member_id):
-    # This is how you can use the Family datastructure by calling its methods
-    member = jackson_family.get_member(member_id)
-    if member:
-        return jsonify(member), 200
-    
-    return jsonify({"error": "Member not found"}), 404
-
-
 @app.route('/members', methods=['POST'])
 def add_member():
-    print("add_member")
-
-    # This is how you can use the Family datastructure by calling its methods
     members_created = jackson_family.add_member(request.get_json())
-
     response_body = {"member": members_created}
 
     return jsonify(response_body), 200
+
+@app.route('/members/<int:member_id>', methods=['GET'])
+def get_member(member_id):
+    try:
+        member = jackson_family.get_member(member_id)
+        if member:
+            return jsonify(member), 200
+    except:
+        return jsonify({"error": "Member not found"}), 404
+
+@app.route('/members/<int:member_id>', methods=['DELETE'])
+def delete_member(member_id):
+    success = jackson_family.delete_member(member_id)
+    if success:
+        return jsonify({"done": True}), 200
+    return jsonify({"error": "Member not found"}), 404
 
 
 # This only runs if `$ python src/app.py` is executed
