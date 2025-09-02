@@ -39,14 +39,14 @@ def handle_hello():
 @app.route('/members', methods=['POST'])
 def add_member():
     members_created = jackson_family.add_member(request.get_json())
-    response_body = {"member": members_created}
+    # response_body = {"member": members_created}
 
-    return jsonify(response_body), 200
+    return jsonify(members_created), 200
 
-@app.route('/members/<int:member_id>', methods=['GET'])
-def get_member(member_id):
+@app.route('/members/<int:id>', methods=['GET'])
+def get_member(id):
     try:
-        member = jackson_family.get_member(member_id)
+        member = jackson_family.get_member(id)
         if member:
             return jsonify(member), 200
     except:

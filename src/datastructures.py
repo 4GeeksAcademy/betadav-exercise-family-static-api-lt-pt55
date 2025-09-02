@@ -41,11 +41,12 @@ class FamilyStructure:
         return generated_id
 
     def add_member(self, member):
-        # if "id" not in member:
-        #     member["id"] = self._generate_id()
-        member["id"] = self._generate_id()
-        member["last_name"] = self.last_name
-        self._members.append(member)
+        if "id" not in member:
+            member["id"] = self._generate_id()
+            member["last_name"] = self.last_name
+            self._members.append(member)
+
+        return member
 
     def delete_member(self, id):
         for i, member in enumerate(self._members):
